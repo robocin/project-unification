@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(protobufs LANGUAGES CXX)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+function(ROBOCIN_GENERATE_PROTOBUF_FILES PROTOBUF_FILES_PATH)
+  set(INPUT_DIRECTORY ${PROTOBUF_FILES_PATH}/proto)
+  set(OUTPUT_DIRECTORY ${PROTOBUF_FILES_PATH})
+
+  file(GLOB PROTOBUF_FILES ${INPUT_DIRECTORY}/*.proto)
+
+  foreach (PROTOBUF_FILE ${PROTOBUF_FILES})
+    get_filename_component(CURRENT_FILE ${PROTOBUF_FILE} NAME)
+    execute_process(COMMAND protoc -I=${INPUT_DIRECTORY} --cpp_out=${OUTPUT_DIRECTORY} ${CURRENT_FILE} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  endforeach ()
+
+  get_filename_component(ABSOLUTE_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY} ABSOLUTE)
+  message("-- Protobuf files have been written to: " ${ABSOLUTE_OUTPUT_DIRECTORY})
+endfunction()
+
+ROBOCIN_GENERATE_PROTOBUF_FILES("include/protobufs/pb")
+
+file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS "*.h" "*.hh" "*.h++" "*.hxx" "*.H" "*.hpp")
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.c" "*.cc" "*.c++" "*.cxx" "*.C" "*.cpp")
+
+add_library(${PROJECT_NAME} STATIC ${HEADER_FILES} ${SOURCE_FILES})

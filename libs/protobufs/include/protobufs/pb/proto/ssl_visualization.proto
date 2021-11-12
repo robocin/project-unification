@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package RoboCupSSL;
+
+option go_package = "github.com/RoboCup-SSL/ssl-vision-client/pkg/visualization";
+
+// Color encoded in RGB
+message RgbColor {
+  // red (0-255)
+  uint32 r = 1;
+  // green (0-255)
+  uint32 g = 2;
+  // blue (0-255)
+  uint32 b = 3;
+  // alpha (0.0-1.0)
+  float a = 4;
+}
+
+// Metadata for each shape
+message Metadata {
+  // layer name, optionally with a hierarchy
+  repeated string layer = 1;
+  // Should a client show this by default?
+  bool visibleByDefault = 2;
+  // An order number:
+  // <0: Below field lines
+  // 0: default
+  // 1: robots
+  // 2: robot ids
+  // 3: ball
+  // >3: above vision objects
+  int32 order = 3;
+  // Color to fill the shape
+  RgbColor color_fill = 4;
+  // Color for the shape stroke
+  RgbColor color_stroke = 5;
+}
+
+// A line segment
+message LineSegment {
+  // The metadata
+  Metadata metadata = 1;
+  // Start point, x value [m]
+  float start_x = 2;
+  // Start point, y value [m]
+  float start_y = 3;
+  // End point, x value [m]
+  float end_x = 4;
+  // End point, y value [m]
+  float end_y = 5;
+}
+
+// A full circle
+message Circle {
+  // The metadata
+  Metadata metadata = 1;
+  // Center point, x value [m]
+  float center_x = 2;
+  // Center point, y value [m]
+  float center_y = 3;
+  // Radius [m]
+  float radius = 4;
+}
+
+// Wrapper frame containing all shapes
+message VisualizationFrame {
+  // An identifier for the sender
+  // Used to identify the source of shapes in a client
+  // Also used to keep track of the latest frame of each sender in clients, if there a multiple ones senders
+  string sender_id = 1;
+  // all lines
+  repeated LineSegment lines = 2;
+  // all circles
+  repeated Circle circles = 3;
+}

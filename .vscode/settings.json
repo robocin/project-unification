@@ -1,0 +1,70 @@
+{
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "editor.formatOnSave": true,
+  "clangd.checkUpdates": true,
+  "clangd.semanticHighlighting": true,
+  "clangd.arguments": [
+    "-background-index",
+    "--compile-commands-dir=${cmake.buildDirectory}",
+    "--completion-style=detailed",
+    "--header-insertion=never"
+  ],
+  "cSpell.words": [
+    "CIn",
+    "RoboCIn",
+    "RobôCIn"
+  ],
+  "cSpell.language": "en, pt, pt_BR",
+  "todohighlight.isCaseSensitive": false,
+  "todohighlight.include": [
+    "**/*.md",
+    "**/*.sh",
+    "**/*.py",
+    "**/*.h",
+    "**/*.hh",
+    "**/*.h++",
+    "**/*.hxx",
+    "**/*.H",
+    "**/*.hpp",
+    "**/*.c",
+    "**/*.cc",
+    "**/*.c++",
+    "**/*.cxx",
+    "**/*.C",
+    "**/*.cpp",
+    "**/*.cmake",
+    "**/CMakeLists.txt"
+  ],
+  "doxdocgen.c.triggerSequence": "/*!",
+  "doxdocgen.c.firstLine": "/*!",
+  "C/C++ Include Guard.Comment Style": "Line",
+  "C/C++ Include Guard.Prefix": "PROJECT_UNIFICATION_",
+  "C/C++ Include Guard.Macro Type": "Filename",
+  "C/C++ Include Guard.Remove Extension": false,
+  "C/C++ Include Guard.Remove Pragma Once": false,
+  "editor.insertSpaces": true,
+  "C_mantic.extensions.headerFiles": [
+    "h",
+    "hh",
+    "h++",
+    "hxx",
+    "H",
+    "hpp"
+  ],
+  "C_mantic.extensions.sourceFiles": [
+    "c",
+    "cc",
+    "c++",
+    "cxx",
+    "C",
+    "cpp"
+  ],
+  "C_mantic.headerGuard.defineFormat": "${PROJECT_NAME}_${FILE_NAME}_${EXT}",
+  "C_mantic.cpp.resolveTypes": true,
+  "C_mantic.cpp.curlyBraceFormat.namespace": "Same line",
+  "C_mantic.cpp.bracedInitialization": true,
+  "C_mantic.cpp.accessor.getterDefinitionLocation": "Generate definition in matching source file",
+  "C_mantic.cpp.accessor.setterDefinitionLocation": "Generate definition in matching source file",
+  "C_mantic.cpp.accessor.boolGetterIsPrefix": true,
+  "qttools.searchMode": "cmake"
+}

@@ -68,7 +68,7 @@ void DrawField::run(GameVisualizerPainter2D* f) {
     };
 
     draw("max", field.max());
-    draw("center", Field::center());
+    draw("center", field.center());
     draw("min", field.min(), Point(0, -3));
 
     draw("AGOTop", field.allyGoalOutsideTop());

@@ -2,7 +2,7 @@
 #include "Modules/Modules.h"
 
 static constexpr int MAX_ROBOTS = 11; // considering max robots for all avaliable fields.
-static constexpr QSizeF DEFAULT_VISUALIZER_SIZE = QSizeF(5, 5);
+static constexpr QSizeF DEFAULT_VISUALIZER_SIZE = QSizeF(50, 50);
 
 int main(int argc, char* argv[]) {
   QApplication a(argc, argv);

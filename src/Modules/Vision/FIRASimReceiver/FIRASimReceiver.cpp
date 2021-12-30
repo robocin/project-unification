@@ -8,25 +8,25 @@
 FIRASimReceiver::FIRASimReceiver(QThreadPool* threadPool) : Vision(threadPool) {
 }
 
-void FIRASimReceiver::buildParameters() {
+void FIRASimReceiver::buildParameters(Parameters::Handler& parameters) {
   using namespace Parameters;
 
-  parameters()["IP"] = Text(args.ip);
-  parameters()["Port"] = Text(args.port);
+  parameters["IP"] = Text(args.ip);
+  parameters["Port"] = Text(args.port);
   /* Network Interface */ {
     QStringList names;
     auto interfaces = QNetworkInterface::allInterfaces();
     for (const auto& interface : interfaces) {
       names += interface.name();
     }
-    parameters()["INet"] = ComboBox(args.inet, names);
+    parameters["INet"] = ComboBox(args.inet, names);
   }
-  parameters()["TeamColor"] = MappedComboBox(args.isYellow, {{false, "Blue"}, {true, "Yellow"}});
-  parameters()["AttackSide"] =
+  parameters["TeamColor"] = MappedComboBox(args.isYellow, {{false, "Blue"}, {true, "Yellow"}});
+  parameters["AttackSide"] =
       MappedComboBox(args.isAttackingToRight, {{false, "Left"}, {true, "Right"}});
 
-  parameters()["Draw"]["Field Markings"] = CheckBox(args.drawFieldMarkings);
-  parameters()["Draw"]["CIninho"] = CheckBox(args.drawCIninho);
+  parameters["Draw"]["Field Markings"] = CheckBox(args.drawFieldMarkings);
+  parameters["Draw"]["CIninho"] = CheckBox(args.drawCIninho);
 }
 
 void FIRASimReceiver::connectModules(const Modules* modules) {
@@ -153,7 +153,7 @@ void FIRASimReceiver::exec() {
       fieldKey.draw(DrawField(field.value(), args.drawFieldMarkings, args.drawCIninho));
     }
   }
-  if (!frame.allies().empty() || !frame.enemies().empty() || frame.has_ball()) {
+  if (frame.has_ball()) {
     emit sendFrame(frame);
     const auto& yellowRobots = args.isYellow ? frame.allies() : frame.enemies();
     const auto& blueRobots = args.isYellow ? frame.enemies() : frame.allies();

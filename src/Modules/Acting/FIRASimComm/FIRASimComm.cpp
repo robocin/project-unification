@@ -7,16 +7,16 @@
 FIRASimComm::FIRASimComm(QThreadPool* threadPool) : Acting(threadPool) {
 }
 
-void FIRASimComm::buildParameters() {
+void FIRASimComm::buildParameters(Parameters::Handler& parameters) {
   using namespace Parameters;
 
-  parameters()["IP"] = Text(args.ip);
-  parameters()["Port"] = Text(args.port);
-  parameters()["Replacement"]["Enable"] =
+  parameters["IP"] = Text(args.ip);
+  parameters["Port"] = Text(args.port);
+  parameters["Replacement"]["Enable"] =
       CheckBox(args.isReplacementEnabled,
                "\n  * Key P replaces the ball;\n"
                "  * Key Y/B (Y for Yellow, B for Blue) + Key [0-9]");
-  parameters()["Replacement"]["Enable"]["true"]["Robot Angle"] =
+  parameters["Replacement"]["Enable"]["true"]["Robot Angle"] =
       MappedAngleInRadiansToDegrees(args.replacementAngle, -PI, PI);
 }
 

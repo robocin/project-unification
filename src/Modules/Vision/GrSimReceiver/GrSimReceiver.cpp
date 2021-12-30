@@ -3,21 +3,21 @@
 GrSimReceiver::GrSimReceiver(QThreadPool* threadPool) : Vision(threadPool) {
 }
 
-void GrSimReceiver::buildParameters() {
+void GrSimReceiver::buildParameters(Parameters::Handler& parameters) {
   using namespace Parameters;
 
-  parameters()["IP"] = Text(args.ip);
-  parameters()["Port"] = Text(args.port);
+  parameters["IP"] = Text(args.ip);
+  parameters["Port"] = Text(args.port);
   /* Network Interface */ {
     QStringList names;
     auto interfaces = QNetworkInterface::allInterfaces();
     for (const auto& interface : interfaces) {
       names += interface.name();
     }
-    parameters()["INet"] = ComboBox(args.inet, names);
+    parameters["INet"] = ComboBox(args.inet, names);
   }
-  parameters()["TeamColor"] = MappedComboBox(args.isYellow, {{false, "Blue"}, {true, "Yellow"}});
-  parameters()["AttackingSide"] =
+  parameters["TeamColor"] = MappedComboBox(args.isYellow, {{false, "Blue"}, {true, "Yellow"}});
+  parameters["AttackingSide"] =
       MappedComboBox(args.isAttackingToRight, {{false, "Left"}, {true, "Right"}});
 }
 
@@ -166,8 +166,43 @@ void GrSimReceiver::exec() {
     emit sendField(field.value());
   }
   if (!rawFrames.empty()) {
-    // emit sendRawFrames(rawFrames);
-    // TODO: sendFrame??
+    using Map = std::map<int, RawRobot>;
+    Map alliesMap;
+    Map enemiesMap;
+
+    std::optional<RawBall> optionalBall;
+
+    for (const auto& frame : rawFrames) {
+      for (const auto& ball : frame.balls()) {
+        optionalBall = ball;
+      }
+      for (const auto& ally : frame.allies()) {
+        alliesMap.insert_or_assign(ally.id(), ally);
+      }
+      for (const auto& enemy : frame.enemies()) {
+        enemiesMap.insert_or_assign(enemy.id(), enemy);
+      }
+    }
+    Frame frame;
+    if (optionalBall) {
+      frame.emplace_ball(optionalBall.value(), Point(0, 0), Point(0, 0));
+    }
+    {
+      QVector<Robot> allies;
+      for (const auto& [id, ally] : alliesMap) {
+        allies += Robot(id, ally.angle(), ally.position(), Point(0, 0), Point(0, 0));
+      }
+      frame.emplace_allies(std::move(allies));
+    }
+    {
+      QVector<Robot> enemies;
+      for (const auto& [id, ally] : enemiesMap) {
+        enemies += Robot(id, ally.angle(), ally.position(), Point(0, 0), Point(0, 0));
+      }
+      frame.emplace_enemies(std::move(enemies));
+    }
+
+    emit sendFrame(frame);
   }
 }
 

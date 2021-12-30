@@ -86,11 +86,14 @@ namespace Simulation::FIRASim {
   inline PacketType toCommunicationPacket(const QVector<VSSCommand>& commands, bool isYellow) {
     PacketType packet;
     for (const auto& command : commands) {
-      auto cmd = packet.mutable_cmd()->add_robot_commands();
-      cmd->set_id(command.id());
-      cmd->set_yellowteam(isYellow);
-      cmd->set_wheel_left(command.leftWheel());
-      cmd->set_wheel_right(command.rightWheel());
+      if (auto cmd = packet.mutable_cmd()->add_robot_commands()) {
+        cmd->set_id(command.id());
+        cmd->set_yellowteam(isYellow);
+        cmd->set_wheel_left(command.leftWheel());
+        cmd->set_wheel_right(command.rightWheel());
+      } else {
+        throw std::runtime_error("command for robot is nullptr.");
+      }
     }
     return packet;
   }

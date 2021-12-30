@@ -16,7 +16,7 @@ class FIRASimComm : public Acting {
   explicit FIRASimComm(QThreadPool* threadPool);
 
  protected:
-  void buildParameters() override;
+  void buildParameters(Parameters::Handler& parameters) override;
   void connectModules(const Modules* modules) override;
   void init(const Modules* modules) override;
   void update() override;

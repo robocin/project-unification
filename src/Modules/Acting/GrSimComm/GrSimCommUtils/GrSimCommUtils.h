@@ -2,8 +2,8 @@
 // Created by jose-cruz on 17/07/2021.
 //
 
-#ifndef PROJECT_UNIFICATION_SIMULATIONUTILS_H
-#define PROJECT_UNIFICATION_SIMULATIONUTILS_H
+#ifndef PROJECT_UNIFICATION_GRSIMCOMMUTILS_H
+#define PROJECT_UNIFICATION_GRSIMCOMMUTILS_H
 
 #include <soccer-common/soccer-common.h>
 #include <protobufs/protobufs.h>
@@ -99,24 +99,28 @@ namespace Simulation::GrSim {
     RoboCupSSL::RobotControl control;
     for (const auto& packet : packets) {
       if (auto robotIt = allies.findById(packet.id()); robotIt != allies.end()) {
-        auto command = control.add_robot_commands();
-        command->set_id(packet.id());
+        if (auto cmd = control.add_robot_commands()) {
+          cmd->set_id(packet.id());
 
-        if (auto moveCommand = command->mutable_move_command()->mutable_local_velocity()) {
-          moveCommand->set_angular(packet.angularVelocity());
-          Point fixedVelocity = packet.velocity().rotatedCW(robotIt->angle());
-          moveCommand->set_forward(static_cast<float>(fixedVelocity.x()));
-          moveCommand->set_left(static_cast<float>(fixedVelocity.y()));
+          if (auto move = cmd->mutable_move_command()->mutable_local_velocity()) {
+            move->set_angular(static_cast<float>(packet.angularVelocity()));
+            Point fixedVelocity = packet.velocity().rotatedCW(robotIt->angle());
+            move->set_forward(static_cast<float>(fixedVelocity.x()));
+            move->set_left(static_cast<float>(fixedVelocity.y()));
+          } else {
+            throw std::runtime_error("move command for robot is nullptr.");
+          }
+          cmd->set_kick_speed(
+              (packet.front() || packet.chip()) ? static_cast<float>(packet.kickSpeed()) : 0.0f);
+          cmd->set_kick_angle(packet.chip() ? 45.0 : 0.0);
+          cmd->set_dribbler_speed(packet.dribbler() ? 6000.0 : 0.0);
         } else {
-          throw std::runtime_error("velocity command is nullptr.");
+          throw std::runtime_error("command for robot is nullptr.");
         }
-        // TODO: command->set_kick_speed();
-        // TODO: command->set_kick_angle();
-        // TODO: command->set_dribbler_speed();
       }
     }
     return control;
   }
 } // namespace Simulation::GrSim
 
-#endif // PROJECT_UNIFICATION_SIMULATIONUTILS_H
+#endif // PROJECT_UNIFICATION_GRSIMCOMMUTILS_H

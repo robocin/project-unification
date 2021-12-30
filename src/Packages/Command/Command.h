@@ -9,10 +9,22 @@
 
 class SSLCommand {
   PROPERTY(int, id);
-  PROPERTY(Point, velocity);
-  PROPERTY(float, angularVelocity);
+  PROPERTY(Point, velocity, Point(0, 0)); // vx, vy
+  PROPERTY(double, angularVelocity, 0);   // vw
+  PROPERTY(double, kickSpeed, 0);
+  PROPERTY(bool, front, false);
+  PROPERTY(bool, chip, false);
+  PROPERTY(bool, dribbler, false);
+  PROPERTY(double, dribblerVelocity, 0);
 
+  CTOR(SSLCommand, id);
+  CTOR(SSLCommand, id, angularVelocity);
   CTOR(SSLCommand, id, velocity, angularVelocity);
+
+ public:
+  static inline SSLCommand halt(int id) {
+    return SSLCommand(id);
+  }
 };
 
 class VSSCommand {

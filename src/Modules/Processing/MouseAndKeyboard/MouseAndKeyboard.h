@@ -6,21 +6,33 @@
 #define PROJECT_UNIFICATION_MOUSEANDKEYBOARD_H
 
 #include "Modules/Modules.h"
+#include "SSLNavigation/SSLNavigation.h"
 
 class MouseAndKeyboard : public Processing {
  public:
   MouseAndKeyboard(int index, QThreadPool* threadPool);
 
  protected:
-  void buildParameters() override;
+  void buildParameters(Parameters::Handler& parameters) override;
   void connectModules(const Modules* modules) override;
   void init(const Modules* modules) override;
   void update() override;
   void exec() override;
 
+  void ssl();
+  void vss();
+
  private:
   struct Args {
-    Parameters::Arg<Qt::Key> targetKey = Qt::Key_T;
+    enum class League { SSL, VSS };
+    Parameters::Arg<League> league = League::SSL;
+    struct SSL {
+      Parameters::Arg<Qt::Key> goToPointKey = Qt::Key_T;
+      Parameters::Arg<Qt::Key> rotateInPointKey = Qt::Key_U;
+      Parameters::Arg<Qt::Key> rotateOnSelfKey = Qt::Key_I;
+    };
+
+    SSL ssl;
   };
   Args args;
 
@@ -39,6 +51,8 @@ class MouseAndKeyboard : public Processing {
   std::optional<Point> mouse;
 
   GameVisualizer::Key targetKey;
+
+  SSLNavigation navigation;
 
  private slots:
   void receiveField(const Field& field);

@@ -8,9 +8,14 @@ MouseAndKeyboard::MouseAndKeyboard(int index, QThreadPool* threadPool) :
     Processing(index, threadPool) {
 }
 
-void MouseAndKeyboard::buildParameters() {
-  parameters()["Position Key"] =
-      Parameters::ComboBox(args.targetKey, {Qt::Key_U, Qt::Key_I, Qt::Key_O, Qt::Key_T});
+void MouseAndKeyboard::buildParameters(Parameters::Handler& parameters) {
+  parameters["League"] = Parameters::ComboBox(args.league, MagicEnum::values<Args::League>());
+  parameters["League"]["SSL"]["Key"]["GoToPoint"] =
+      Parameters::ComboBox(args.ssl.goToPointKey, MagicEnum::values<Qt::Key>());
+  parameters["League"]["SSL"]["Key"]["RotateInPoint"] =
+      Parameters::ComboBox(args.ssl.rotateInPointKey, MagicEnum::values<Qt::Key>());
+  parameters["League"]["SSL"]["Key"]["RotateOnSelf"] =
+      Parameters::ComboBox(args.ssl.rotateOnSelfKey, MagicEnum::values<Qt::Key>());
 }
 
 void MouseAndKeyboard::connectModules(const Modules* modules) {
@@ -58,6 +63,10 @@ void MouseAndKeyboard::update() {
     frame.emplace(*f);
   }
   shared->mouse.extract_to(mouse);
+
+  if (args.league.updated()) {
+    targetKey.clear();
+  }
 }
 
 void MouseAndKeyboard::exec() {
@@ -65,11 +74,42 @@ void MouseAndKeyboard::exec() {
     return;
   }
 
+  if (args.league == Args::League::SSL) {
+    ssl();
+  } else {
+    vss();
+  }
+}
+
+void MouseAndKeyboard::ssl() {
   targetKey.draw([mouse = this->mouse](GameVisualizerPainter2D* f) {
     f->drawFilledCircle(mouse.value(), 45, Color::Red);
   });
 
-  // TODO: emit sendCommand();
+  const QSet<Qt::Key> keys = shared->keys.get();
+
+  if (keys.contains(args.ssl.goToPointKey)) {
+    Motion::GoToPoint goToPoint(mouse.value(), (field->center() - robot->position()).angle(), true);
+    auto command = navigation.run(robot.value(), RobotCommand(goToPoint));
+    emit sendCommand(command);
+  } else if (keys.contains(args.ssl.rotateInPointKey)) {
+    Motion::RotateInPoint rotateInPoint(mouse.value(),
+                                        (mouse.value() - robot->position()).angle(),
+                                        false,
+                                        360);
+    auto command = navigation.run(robot.value(), RobotCommand(rotateInPoint));
+    emit sendCommand(command);
+  } else if (keys.contains(args.ssl.rotateOnSelfKey)) {
+    Motion::RotateOnSelf rotateOnSelf((mouse.value() - robot->position()).angle());
+    auto command = navigation.run(robot.value(), RobotCommand(rotateOnSelf));
+    emit sendCommand(command);
+  } else {
+    emit sendCommand(SSLCommand::halt(index()));
+  }
+}
+
+void MouseAndKeyboard::vss() {
+  // TODO: vss mouse and keyboard.
 }
 
 void MouseAndKeyboard::receiveField(const Field& field) {
@@ -82,8 +122,8 @@ void MouseAndKeyboard::receiveFrame(const Frame& frame) {
 }
 
 void MouseAndKeyboard::receiveMousePos(const Point& mouse) {
-  shared.apply([&](Shared& obj) {
-    if (obj.keys->contains(args.targetKey)) {
+  shared.apply([&mouse](Shared& obj) {
+    if (!obj.keys->empty()) {
       obj.mouse = mouse;
     }
   });

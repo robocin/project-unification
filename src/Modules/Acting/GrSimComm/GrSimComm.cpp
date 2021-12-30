@@ -7,19 +7,19 @@
 GrSimComm::GrSimComm(QThreadPool* threadPool) : Acting(threadPool) {
 }
 
-void GrSimComm::buildParameters() {
+void GrSimComm::buildParameters(Parameters::Handler& parameters) {
   using namespace Parameters;
 
-  parameters()["IP"] = Text(args.simulation.ip);
-  parameters()["Port"] = Text(args.simulation.port);
+  parameters["IP"] = Text(args.simulation.ip);
+  parameters["Port"] = Text(args.simulation.port);
 
-  parameters()["Replacement"]["IP"] = Text(args.replacement.ip);
-  parameters()["Replacement"]["Port"] = Text(args.replacement.port);
-  parameters()["Replacement"]["Enable"] =
+  parameters["Replacement"]["IP"] = Text(args.replacement.ip);
+  parameters["Replacement"]["Port"] = Text(args.replacement.port);
+  parameters["Replacement"]["Enable"] =
       CheckBox(args.isReplacementEnabled,
                "\n  * Key P replaces the ball;\n"
                "  * Key Y/B (Y for Yellow, B for Blue) + Key [0-9] replaces the robots");
-  parameters()["Replacement"]["Enable"]["true"]["Robot Angle"] =
+  parameters["Replacement"]["Enable"]["true"]["Robot Angle"] =
       MappedAngleInRadiansToDegrees(args.replacementAngle, -PI, PI);
 }
 

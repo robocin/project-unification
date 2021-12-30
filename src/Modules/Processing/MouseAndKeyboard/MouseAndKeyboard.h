@@ -6,7 +6,7 @@
 #define PROJECT_UNIFICATION_MOUSEANDKEYBOARD_H
 
 #include "Modules/Modules.h"
-#include "SSLNavigation/SSLNavigation.h"
+#include "Modules/Processing/ProcessingUtils/ProcessingUtils.h"
 
 class MouseAndKeyboard : public Processing {
  public:
@@ -32,7 +32,14 @@ class MouseAndKeyboard : public Processing {
       Parameters::Arg<Qt::Key> rotateOnSelfKey = Qt::Key_I;
     };
 
+    struct VSS {
+      Parameters::Arg<Qt::Key> goToPointKey = Qt::Key_T;
+      Parameters::Arg<Qt::Key> ccwSpin = Qt::Key_Z;
+      Parameters::Arg<Qt::Key> cwSpin = Qt::Key_X;
+    };
+
     SSL ssl;
+    VSS vss;
   };
   Args args;
 
@@ -52,7 +59,8 @@ class MouseAndKeyboard : public Processing {
 
   GameVisualizer::Key targetKey;
 
-  SSLNavigation navigation;
+  SSLNavigation sslNavigation;
+  VSSNavigation vssNavigation;
 
  private slots:
   void receiveField(const Field& field);

@@ -80,6 +80,7 @@ void DrawField::run(GameVisualizerPainter2D* f) {
     draw("AGIBottom", field.allyGoalInsideBottom(), Point(0, -3));
 
     draw("APACTop", field.allyPenaltyAreaCornerTop());
+    draw("APACCenter", field.allyPenaltyAreaCenter());
     draw("APACBottom", field.allyPenaltyAreaCornerBottom(), Point(0, -3));
 
     draw("EGOTop", field.enemyGoalOutsideTop());
@@ -91,6 +92,7 @@ void DrawField::run(GameVisualizerPainter2D* f) {
     draw("EGIBottom", field.enemyGoalInsideBottom(), Point(0, -3));
 
     draw("EPACTop", field.enemyPenaltyAreaCornerTop());
+    draw("EPACCenter", field.enemyPenaltyAreaCenter());
     draw("EPACBottom", field.enemyPenaltyAreaCornerBottom(), Point(0, -3));
   }
 }

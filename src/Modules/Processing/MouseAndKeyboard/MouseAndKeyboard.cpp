@@ -16,6 +16,13 @@ void MouseAndKeyboard::buildParameters(Parameters::Handler& parameters) {
       Parameters::ComboBox(args.ssl.rotateInPointKey, MagicEnum::values<Qt::Key>());
   parameters["League"]["SSL"]["Key"]["RotateOnSelf"] =
       Parameters::ComboBox(args.ssl.rotateOnSelfKey, MagicEnum::values<Qt::Key>());
+
+  parameters["League"]["VSS"]["Key"]["GoToPoint"] =
+      Parameters::ComboBox(args.vss.goToPointKey, MagicEnum::values<Qt::Key>());
+  parameters["League"]["VSS"]["Key"]["CCWSpin"] =
+      Parameters::ComboBox(args.vss.ccwSpin, MagicEnum::values<Qt::Key>());
+  parameters["League"]["VSS"]["Key"]["CWSpin"] =
+      Parameters::ComboBox(args.vss.cwSpin, MagicEnum::values<Qt::Key>());
 }
 
 void MouseAndKeyboard::connectModules(const Modules* modules) {
@@ -89,19 +96,21 @@ void MouseAndKeyboard::ssl() {
   const QSet<Qt::Key> keys = shared->keys.get();
 
   if (keys.contains(args.ssl.goToPointKey)) {
-    Motion::GoToPoint goToPoint(mouse.value(), (field->center() - robot->position()).angle(), true);
-    auto command = navigation.run(robot.value(), RobotCommand(goToPoint));
+    SSLMotion::GoToPoint goToPoint(mouse.value(),
+                                   (field->center() - robot->position()).angle(),
+                                   true);
+    auto command = sslNavigation.run(robot.value(), SSLRobotCommand(goToPoint));
     emit sendCommand(command);
   } else if (keys.contains(args.ssl.rotateInPointKey)) {
-    Motion::RotateInPoint rotateInPoint(mouse.value(),
-                                        (mouse.value() - robot->position()).angle(),
-                                        false,
-                                        360);
-    auto command = navigation.run(robot.value(), RobotCommand(rotateInPoint));
+    SSLMotion::RotateInPoint rotateInPoint(mouse.value(),
+                                           (mouse.value() - robot->position()).angle(),
+                                           false,
+                                           360);
+    auto command = sslNavigation.run(robot.value(), SSLRobotCommand(rotateInPoint));
     emit sendCommand(command);
   } else if (keys.contains(args.ssl.rotateOnSelfKey)) {
-    Motion::RotateOnSelf rotateOnSelf((mouse.value() - robot->position()).angle());
-    auto command = navigation.run(robot.value(), RobotCommand(rotateOnSelf));
+    SSLMotion::RotateOnSelf rotateOnSelf((mouse.value() - robot->position()).angle());
+    auto command = sslNavigation.run(robot.value(), SSLRobotCommand(rotateOnSelf));
     emit sendCommand(command);
   } else {
     emit sendCommand(SSLCommand::halt(index()));
@@ -109,7 +118,27 @@ void MouseAndKeyboard::ssl() {
 }
 
 void MouseAndKeyboard::vss() {
-  // TODO: vss mouse and keyboard.
+  targetKey.draw([mouse = this->mouse](GameVisualizerPainter2D* f) {
+    f->drawFilledCircle(mouse.value(), 4.5, Color::Red);
+  });
+
+  const QSet<Qt::Key> keys = shared->keys.get();
+
+  if (keys.contains(args.vss.goToPointKey)) {
+    VSSMotion::GoToPoint goToPoint(mouse.value());
+    auto command = vssNavigation.run(robot.value(), VSSRobotCommand(goToPoint));
+    emit sendCommand(command);
+  } else if (keys.contains(args.vss.ccwSpin)) {
+    VSSMotion::Spin spin(false);
+    auto command = vssNavigation.run(robot.value(), VSSRobotCommand(spin));
+    emit sendCommand(command);
+  } else if (keys.contains(args.vss.cwSpin)) {
+    VSSMotion::Spin spin(true);
+    auto command = vssNavigation.run(robot.value(), VSSRobotCommand(spin));
+    emit sendCommand(command);
+  } else {
+    emit sendCommand(VSSCommand::halt(index()));
+  }
 }
 
 void MouseAndKeyboard::receiveField(const Field& field) {

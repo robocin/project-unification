@@ -29,10 +29,16 @@ class SSLCommand {
 
 class VSSCommand {
   PROPERTY(int, id);
-  PROPERTY(float, leftWheel, 0);
-  PROPERTY(float, rightWheel, 0);
+  PROPERTY(double, leftWheel, 0);
+  PROPERTY(double, rightWheel, 0);
 
+  CTOR(VSSCommand, id);
   CTOR(VSSCommand, id, leftWheel, rightWheel);
+
+ public:
+  static inline VSSCommand halt(int id) {
+    return VSSCommand(id);
+  }
 };
 
 using Command = std::variant<SSLCommand, VSSCommand>;

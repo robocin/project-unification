@@ -1,0 +1,7 @@
+#ifndef PROJECT_UNIFICATION_PROCESSINGUTILS_H
+#define PROJECT_UNIFICATION_PROCESSINGUTILS_H
+
+#include "SSLNavigation/SSLNavigation.h"
+#include "VSSNavigation/VSSNavigation.h"
+
+#endif // PROJECT_UNIFICATION_PROCESSINGUTILS_H

@@ -23,7 +23,7 @@ class SSLNavigation {
  public:
   SSLNavigation() = default;
 
-  inline SSLCommand run(const Robot& r, const RobotCommand& command) {
+  inline SSLCommand run(const Robot& r, const SSLRobotCommand& command) {
     robot = r;
     auto move = std::visit(*this, command.motion());
 
@@ -51,7 +51,7 @@ class SSLNavigation {
     return RobotMove(kp * dTheta);
   }
 
-  inline RobotMove operator()(const Motion::GoToPoint& goToPoint) {
+  inline RobotMove operator()(const SSLMotion::GoToPoint& goToPoint) {
     // If Player send max speed, this max speed has to be respected
     // Ohterwise, use the max speed received in the parameter
 
@@ -99,7 +99,7 @@ class SSLNavigation {
     }
   }
 
-  inline RobotMove operator()(const Motion::RotateInPoint& rotatePoint) {
+  inline RobotMove operator()(const SSLMotion::RotateInPoint& rotatePoint) {
     double velocity =
         rotatePoint.optional_rotateVelocity().value_or(Ctes::ROTATE_IN_POINT_MAX_VELOCITY);
 
@@ -123,7 +123,7 @@ class SSLNavigation {
     return RobotMove(rotatedCoords, angVel);
   }
 
-  RobotMove operator()(const Motion::RotateOnSelf& rotateOnSelf) {
+  RobotMove operator()(const SSLMotion::RotateOnSelf& rotateOnSelf) {
     return anglePID(rotateOnSelf.targetAngle(),
                     rotateOnSelf.optional_kp().value_or(Ctes::ANGLE_KP));
   }

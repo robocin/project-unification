@@ -1,9 +1,9 @@
-#ifndef SSL_UNIFICATION_ROBOTCOMMAND_H
-#define SSL_UNIFICATION_ROBOTCOMMAND_H
+#ifndef PROJECT_UNIFICATION_SSLROBOTCOMMAND_H
+#define PROJECT_UNIFICATION_SSLROBOTCOMMAND_H
 
 #include <soccer-common/soccer-common.h>
 
-namespace Motion {
+namespace SSLMotion {
   class GoToPoint {
     PROPERTY(Point, target);
     PROPERTY(double, targetAngle);
@@ -37,17 +37,17 @@ namespace Motion {
   };
 
   using Type = std::variant<GoToPoint, RotateInPoint, RotateOnSelf>;
-} // namespace Motion
+} // namespace SSLMotion
 
-class RobotCommand {
+class SSLRobotCommand {
   PROPERTY(double, kickSpeed, 0);
   PROPERTY(bool, front, false);
   PROPERTY(bool, chip, false);
   PROPERTY(bool, dribbler, false);
   PROPERTY(double, dribblerVelocity, 0);
-  PROPERTY(Motion::Type, motion);
+  PROPERTY(SSLMotion::Type, motion);
 
-  CTOR(RobotCommand, motion);
+  CTOR(SSLRobotCommand, motion);
 };
 
-#endif // SSL_UNIFICATION_ROBOTCOMMAND_H
+#endif // PROJECT_UNIFICATION_SSLROBOTCOMMAND_H

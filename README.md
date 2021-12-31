@@ -1,6 +1,8 @@
 # project-unification 🇧🇷 🤖⚽
 Demonstração do framework de unificação de categorias de futebol de robôs, pensado para introduzir novatos na infraestrutura de software alto-nível adotado pela equipe, tendo uma grande base de funções úteis e adaptações aos casos de uso para desenvolver a cognição em software de futebol de robôs.
 
+Para mais detalhes confira a descrição completa do projeto de seletiva [aqui](docs/Software-SSL.pdf)
+
 ## Descrição
 ### Arquitetura
 ![](docs/arquitetura.png)

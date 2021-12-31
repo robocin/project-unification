@@ -1,51 +1,92 @@
 # project-unification 🇧🇷 🤖⚽
-Demonstração do framework de unificação de categorias de futebol de robôs, pensado para introduzir novatos na infraestrutura de software alto-nível adotado pela equipe, tendo uma grande base de funções úteis e adaptações aos casos de uso para desenvolver a cognição em software de futebol de robôs.
 
-Para mais detalhes confira a descrição completa do projeto de seletiva [aqui](docs/Software-SSL.pdf)
+Esse projeto tem como objetivo demonstrar uso do framework [soccer-common](https://github.com/robocin/soccer-common), desenvolvido pelo RobôCIn e utilizado nas categorias [RobôCup SSL](https://ssl.robocup.org/) e [IEEE VSS](https://ieeevss.github.io/vss/);
 
 ## Descrição
+
 ### Arquitetura
+
 ![](docs/arquitetura.png)
-- I: Recebemos do simulador de forma independente as informações captadas a 60FPS pelas N câmeras que tenham sidos configuradas, no caso do GrSim são 4.
-- A: Após ser recebido pelo socket UDP, as informações brutas são enviadas para serem processadas e organizadas nas entidades de frame e de field.
-- 1: Ao formatar as informações recebidas o processingWorld pode enviar aos módulos inscritos constantemente a versão atualizada das suas entidades de output.
-- B: Quando o behavior define como o robô deve atuar, uma das principais ações atribuídas é a movimentação, com isso precisamos filtrar obstáculos entre o robô e os objetivos atribuídos.
-- C: Após filtrar as instruções de movimentação do robô, enviamos todo o Behavior para o Navigation que processa a navegação em movimentações diretas para o robô.
-- 2: Após processar a navegação, é construído o pacote de comando para robô que é enviado para o sendCommands.
-- II: Sempre que o sendCommands recebe um pacote de comandos para o robô esse pacote é enviado para o simulador através da conexão UDP
 
+*Módulos com a marcação "done" são minimamente funcionais, enquanto os com a marcação "todo" é esperado que sejam implementados;*
 
-**Nota**:Módulos com a marcação "Done" São plenamente funcionais, enquanto os com a marcação "ToDo" possuem funcionalidade limitada ou nenhuma.
+#### Vision
 
-### MouseAndKeyBoard
- GoToPoint                 | RotatePoint              |           RotateOnSelf  |
-:-------------------------:|:-------------------------:|:-------------------------:
-![](docs/GoToPoint.gif)   |  ![](docs/RotateInPoint.gif) | ![](docs/RotateOnSelf.gif) | 
-tecla T      | tecla U   |  tecla I  |
- 
- 
-- O exemplo disponível exercita apenas a movimentação dos robôs, mas ao preenchendo outros campos e com algumas modificações é possível usar outras funções do robô. Para mais detalhes verifique os comandos disponíveis em [RobotCommand.h](https://github.com/robocin/project-unification/blob/main/src/Packages/RobotCommand/RobotCommand.h).
-- O behavior TurnedOff existe apenas para ser possível desligar um robô e precisa ser mantido como está, mas o behavior de mouseAndKeyBoard pode ter sua base copiada e alterada a vontade para fazer o projeto 😁
+-   **I**: Recebe, a partir de um software externo (ex: [grSim](https://github.com/RoboCup-SSL/grSim), para o SSL e [FIRASim](https://github.com/VSSSLeague/FIRASim) para o VSS) as informações correspondentes a visão;
+
+-   **A**: Realiza a leitura das informações e converte em tipos locais ([Field](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Field/Field.h), [Ball](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Entities/Ball/Ball.h), [Robot](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Entities/Robot/Robot.h));
+
+-   **1**: Após a conversão em tipos locais, as entidades, _ball_, _allies_ e _enemies_ são agrupadas em uma classe [Frame](https://github.com/robocin/project-unification/blob/main/src/Packages/Frame/Frame.h) e enviadas para o módulo seguinte, a classe Field também é enviada de acordo com sua frequência de recebimento;
+
+*Nesse projeto, apenas uma demonstração funcional do recebimento de pacotes pelos simuladores é realizada, isto é, não há uma filtragem robusta das informações recebidas, nem cálculos para a obtenção de velocidade e aceleração das entidades;*
+
+#### Processing
+
+-   **B**: Nessa etapa é esperado que, a partir das informações recebidas de Frame e Field, exista uma definição de como o robô deve atuar. Nesse projeto, a atuação dos robôs foi abstraída nas classes [SSLRobotCommand](https://github.com/robocin/project-unification/blob/main/src/Packages/SSLRobotCommand/SSLRobotCommand.h) e [VSSRobotCommand](https://github.com/robocin/project-unification/blob/main/src/Packages/VSSRobotCommand/VSSRobotCommand.h);
+-   **2**: Após a definição do que o robô deve fazer, as classes [SSLNavigation](https://github.com/robocin/project-unification/blob/main/src/Modules/Processing/ProcessingUtils/SSLNavigation/SSLNavigation.h) e [VSSNavigation](https://github.com/robocin/project-unification/blob/main/src/Modules/Processing/ProcessingUtils/VSSNavigation/VSSNavigation.h) convertem os comandos abstraídos em pacotes interpretáveis pelos simuladores, para que possam realizar efetivamente o comportamento desejado. Os commandos finais para as categorias são as classes existentes no arquivo [Command](https://github.com/robocin/project-unification/blob/main/src/Packages/Command/Command.h), e ao final do módulo, são enviados para o módulo seguinte;
+
+#### Acting
+
+-   **II**: Como ultima etapa, para cada pacote construído em **Processing**, um envio para o simulador é realizado, concluindo assim, a realização do comportamento desejado;
+
+---
+
+## Processing Modules
+### MouseAndKeyboard
+
+- O Módulo MouseAndKeyboard existe para demonstrar algumas ações default que os robôs podem realizar. Os comandos para o SSL e o VSS podem ser visualizados abaixo:
+
+#### SSL (Default Keys):
+ |         GoToPoint         |          RotatePoint          |         RotateOnSelf         |
+ | :-----------------------: | :---------------------------: | :--------------------------: |
+ | ![](docs/go-to-point.gif) | ![](docs/rotate-in-point.gif) | ![](docs/rotate-on-self.gif) |
+ |          tecla T          |            tecla U            |           tecla I            |
+
+#### VSS (Default Keys):
+ | GoToPoint | RotateCCW | RotateCW |
+ | :-------: | :-------: | :------: |
+ |  tecla T  |  tecla Z  | tecla X  |
+
+### TurnedOff
+- O Módulo TurnedOff existe apenas para "desligar" um robo;
 
 ## Dependências
-- Compilador g++ 9.3 ou superior, como presente no Ubuntu >= 20.04 ou similares.
-- VSCode, editor utilizado pela equipe e com plugins fornece total supporte ao projeto.
 
-## Setup de ambiente
-- Para instalar as dependências essenciais do projeto execute no terminal:
-```bash
+- Sistema Operacional: Ubuntu 20.04 LTS ou superior:
+Qualquer outro sistema operacional pode requerer scripts de instalação diferentes dos fornecidos ou não funcionar;
+
+- [CMake](https://cmake.org/) 3.15 ou superior;
+- [C++17](https://en.cppreference.com/w/cpp/17) ou superior:
+    - _gcc ≥ 9;_
+    - _Algumas features utilizadas existem apenas a partir do C++17;_
+- [Qt Framework](https://www.qt.io/) 6.1.1 ou superior:
+    - _Algumas dependências requerem o Qt;_
+- [Google Protobuf](https://developers.google.com/protocol-buffers);
+- OpenGL;
+- [boost](https://www.boost.org/):
+
+> todas as dependências requeridas podem ser instaladas através do script: `scripts/setup.py`
+
+É recomendado o uso do [VSCode](https://code.visualstudio.com/) IDE;
+
+> O VSCode pode ser instalado atráves do comando: _$ snap install --classic code_
+
+## Setup
+
+-   Para instalar as dependências essenciais do projeto execute no terminal:
+
 $ cd scripts
 $ sudo ./setup.py --essentials
-```
-- Para configurar o VSCode:
-  - Abra a pasta do projeto no VScode
-  - Abra o terminal integrado do VSCode
-  - Execute os seguintes comandos no terminal
-  ```bash
-  $ cd scripts
-  $ ./vscode-cpp-essentials.sh
-  ```
-  - Ative o formmatter seguindo os passos:
-   - Navegue pela interface nas opções: File > Preferences > settings
-   - Busque pelo campo "Editor: Default Formatter" em settings e selecione o clang-format como formatter.
-- Todo o processo de setup pode ser conferido no vídeo de setup [aqui](https://drive.google.com/file/d/1NFFaG4YJ6j1qvTHhRYu3boERr167gtf5/view?usp=sharing)
+
+-   Para configurar o VSCode:
+
+$ cd scripts
+$ sudo ./setup.py --install vscode-cpp-essentials
+    
+-   Ative o formmatter seguindo os passos:
+-   Navegue pela interface nas opções: File > Preferences > settings
+-   Busque pelo campo "Editor: Default Formatter" em settings e selecione o clang-format como formatter.
+
+*O script setup.py requer os comandos ```apt update``` e ```apt upgrade``` funcionado. Caso contrário, vá na pasta scripts/ubuntu e instale manualmente cada um dos scripts desejados*
+
+*Os scripts essenciais estão listado no arquivo ```scritps/essentials.txt```*

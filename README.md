@@ -5,9 +5,14 @@ Demonstração do framework de unificação de categorias de futebol de robôs, 
 ### Arquitetura
 
 ### MouseAndKeyBoard
-- GoToPoint(tecla ?):
-- RotatePoint(tecla ?):
-- AnglePID(tecla ?):
+ GoToPoint                 | RotatePoint              |           RotateOnSelf  |
+:-------------------------:|:-------------------------:|:-------------------------:
+![](docs/GoToPoint.gif)   |  ![](docs/RotateInPoint.gif) | ![](docs/RotateOnSelf.gif) | 
+tecla T      | tecla U   |  tecla I  |
+ 
+ 
+- O exemplo disponível exercita apenas a movimentação dos robôs, mas preenchendo outros campos e com algumas modificações é possível usar outras funções do robô. Para mais detalhes verifique os comandos disponíveis em [RobotCommand.h](https://github.com/robocin/project-unification/blob/main/src/Packages/RobotCommand/RobotCommand.h).
+- O behavior TurnedOff existe apenas para ser possível desligar um robô e precisa ser mantido como está, mas o behavior de mouseAndKeyBoard pode ter sua base copiada e alterada a vontade para fazer o projeto 😁
 
 ## Dependências
 - Compilador g++ 9.3 ou superior, como presente no Ubuntu >= 20.04 ou similares.

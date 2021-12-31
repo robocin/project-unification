@@ -46,3 +46,4 @@ $ sudo ./setup.py --essentials
   - Ative o formmatter seguindo os passos:
    - Navegue pela interface nas opções: File > Preferences > settings
    - Busque pelo campo "Editor: Default Formatter" em settings e selecione o clang-format como formatter.
+- Todo o processo de setup pode ser conferido no vídeo de setup [aqui](https://drive.google.com/file/d/1NFFaG4YJ6j1qvTHhRYu3boERr167gtf5/view?usp=sharing)

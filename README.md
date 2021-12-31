@@ -14,7 +14,7 @@ Demonstração do framework de unificação de categorias de futebol de robôs, 
 - VSCode, editor utilizado pela equipe e com plugins fornece total supporte ao projeto.
 
 ## Setup de ambiente
-- Para instalar as depencias essenciais do projeto execute no terminal:
+- Para instalar as dependências essenciais do projeto execute no terminal:
 ```bash
 $ cd scripts
 $ sudo ./setup.py --essentials
@@ -28,5 +28,5 @@ $ sudo ./setup.py --essentials
   $ ./vscode-cpp-essentials.sh
   ```
   - Ative o formmatter seguindo os passos:
-   - Navegue pela interface nas opções: File > Preferrences > settings
+   - Navegue pela interface nas opções: File > Preferences > settings
    - Busque pelo campo "Editor: Default Formatter" em settings e selecione o clang-format como formatter.

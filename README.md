@@ -1,6 +1,6 @@
 # project-unification 🇧🇷 🤖⚽
 
-Esse projeto tem como objetivo demonstrar uso do framework [soccer-common](https://github.com/robocin/soccer-common), desenvolvido pelo RobôCIn e utilizado nas categorias [RobôCup SSL](https://ssl.robocup.org/) e [IEEE VSS](https://ieeevss.github.io/vss/);
+Esse projeto tem como objetivo demonstrar o uso do framework [soccer-common](https://github.com/robocin/soccer-common), desenvolvido pelo RobôCIn e utilizado nas categorias [RobôCup SSL](https://ssl.robocup.org/) e [IEEE VSS](https://ieeevss.github.io/vss/);
 
 ## Descrição
 
@@ -28,6 +28,22 @@ Esse projeto tem como objetivo demonstrar uso do framework [soccer-common](https
 #### Acting
 
 -   **II**: Como ultima etapa, para cada pacote construído em **Processing**, um envio para o simulador é realizado, concluindo assim, a realização do comportamento desejado;
+
+---
+
+### Bibliotecas Úteis
+
+- [Geometry](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Geometry/Geometry.h): Provê funções úteis para a computação de operações vetoriais e angulares em 2D;
+
+- [Point](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Extends/QPoint/ExtendsQPoint.h): A classe ```Point``` trata-se de um *alias* para a classe ```Extends<QPointF>```, que por sua vez, corresponde a uma extensão da classe [QPointF](https://doc.qt.io/qt-6/qpointf.html), da qual representa um ponto geométrico real *(x, y)*, que pode ser visto como um vetor partindo da origem *(0, 0)* até a dada posição *(x, y)*;
+
+*As funções vetoriais existentes em Geometry podem ser acessadas como funções membro na classe ```Extends<QPointF>```;*
+
+- [Math](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Math/Math.h): Provê funções matemáticas adicionais as existentes na biblioteca padrão;
+
+- [Field](https://github.com/robocin/soccer-common/blob/master/include/soccer-common/Field/Field.h): Corresponde a um campo genérico, parametrizado em função das dimensões essenciais: *```(length, width, goalDepth, goalWidth, penaltyAreaDepth, penaltyAreaWidth)```*, provendo pontos de referência úteis, bem como métodos que consultam o pertencimento de uma entidade para determinadas áreas do campo;
+
+- [Entities](https://github.com/robocin/soccer-common/tree/master/include/soccer-common/Entities): Correspondem as classes: ```Entity, Robot e Ball``` e derivadas, e ao container ```Robots```, que trata-se da especialização de um _QVector_ para robôs, provendo assim, métodos úteis tais como ```.findById(int id)```;
 
 ---
 
@@ -85,10 +101,10 @@ cd scripts
 sudo ./setup.py --install vscode-cpp-essentials
 ```
     
--   Ative o formmatter seguindo os passos:
+-   Ative o formatter seguindo os passos:
 -   Navegue pela interface nas opções: File > Preferences > settings
 -   Busque pelo campo "Editor: Default Formatter" em settings e selecione o clang-format como formatter.
 
-*O script setup.py requer os comandos ```apt update``` e ```apt upgrade``` funcionado. Caso contrário, vá na pasta scripts/ubuntu e instale manualmente cada um dos scripts desejados*
+*O script setup.py requer os comandos ```apt update``` e ```apt upgrade``` funcionando. Caso contrário, vá na pasta scripts/ubuntu e instale manualmente cada um dos scripts desejados*
 
 *Os scripts essenciais estão listado no arquivo ```scritps/essentials.txt```*

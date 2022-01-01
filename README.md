@@ -74,14 +74,16 @@ Qualquer outro sistema operacional pode requerer scripts de instalação diferen
 ## Setup
 
 -   Para instalar as dependências essenciais do projeto execute no terminal:
-
-$ cd scripts
-$ sudo ./setup.py --essentials
+``` bash
+cd scripts
+sudo ./setup.py --essentials
+```
 
 -   Para configurar o VSCode:
-
-$ cd scripts
-$ sudo ./setup.py --install vscode-cpp-essentials
+``` bash
+cd scripts
+sudo ./setup.py --install vscode-cpp-essentials
+```
     
 -   Ative o formmatter seguindo os passos:
 -   Navegue pela interface nas opções: File > Preferences > settings

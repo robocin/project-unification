@@ -97,8 +97,8 @@ sudo ./setup.py --essentials
 
 -   Para configurar o VSCode:
 ``` bash
-cd scripts
-sudo ./setup.py --install vscode-cpp-essentials
+cd scripts/ubuntu
+./vscode-cpp-essentials.sh
 ```
     
 -   Ative o formatter seguindo os passos:

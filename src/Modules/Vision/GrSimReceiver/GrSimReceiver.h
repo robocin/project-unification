@@ -38,6 +38,19 @@ class GrSimReceiver : public Vision {
   };
   SharedWrapper<Shared, std::mutex> shared;
 
+  struct Cte {
+    struct DivB {
+      static constexpr double FIELD_LENGTH = 9000;
+      static constexpr double FIELD_WIDTH = 6000;
+      static constexpr double GOAL_DEPTH = 180;
+      static constexpr double GOAL_WIDTH = 1000;
+      static constexpr double PENALTY_AREA_DEPTH = 1000;
+      static constexpr double PENALTY_AREA_WIDTH = 2000;
+      static constexpr double BOUNDARY_WIDTH = 300;
+      static constexpr double GOAL_CENTER_TO_PENALTY_MARK = 6000;
+    };
+  };
+
   std::unique_ptr<QUdpSocket, DeleteLaterDeleter> socket;
   std::deque<RoboCupSSL::SSL_WrapperPacket> packets;
 

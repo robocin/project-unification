@@ -149,17 +149,22 @@ void GrSimReceiver::exec() {
     }
 
     if (packet.has_geometry()) {
-      const auto& geometry = packet.geometry().field();
+      auto&& f = packet.geometry().field();
 
-      field.emplace(args.isAttackingToRight,
-                    geometry.field_length(),
-                    geometry.field_width(),
-                    geometry.goal_width(),
-                    geometry.goal_depth(),
-                    geometry.penalty_area_depth(),
-                    geometry.penalty_area_width());
+      auto opt = [](bool has, auto&& value, auto&& orElse) {
+        return has ? value : orElse;
+      };
 
-      fieldKey.draw(DrawSSLClientField(geometry, true));
+      field = Field(
+          args.isAttackingToRight,
+          opt(f.has_field_length(), f.field_length(), Cte::DivB::FIELD_LENGTH),
+          opt(f.has_field_width(), f.field_width(), Cte::DivB::FIELD_WIDTH),
+          opt(f.has_goal_depth(), f.goal_depth(), Cte::DivB::GOAL_DEPTH),
+          opt(f.has_goal_width(), f.goal_width(), Cte::DivB::GOAL_WIDTH),
+          opt(f.has_penalty_area_depth(), f.penalty_area_depth(), Cte::DivB::PENALTY_AREA_DEPTH),
+          opt(f.has_penalty_area_width(), f.penalty_area_width(), Cte::DivB::PENALTY_AREA_WIDTH));
+
+      fieldKey.draw(DrawSSLClientField(f, true));
     }
   }
   if (field) {

@@ -87,6 +87,11 @@ Qualquer outro sistema operacional pode requerer scripts de instalação diferen
 
 > O VSCode pode ser instalado atráves do comando: _$ snap install --classic code_
 
+## Download do repositório
+Este repositório possui depedências de outros repositórios, para fazer o download, o clone, do código corretamente e conseguir instalar utilise o seguinte comando:
+``` bash
+git clone --recurse-submodules -j4 https://github.com/robocin/project-unification.git
+```
 ## Setup
 
 -   Para instalar as dependências essenciais do projeto execute no terminal:

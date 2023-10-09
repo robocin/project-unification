@@ -8,6 +8,7 @@
 #include <QUdpSocket>
 #include <QNetworkInterface>
 #include <protobufs/protobufs.h>
+#include <deque>
 
 #include "Modules/Modules.h"
 #include "Modules/Vision/VisionUtils/VisionUtils.h"
@@ -45,8 +46,8 @@ class FIRASimReceiver : public Vision {
 
   std::deque<fira_message::sim_to_ref::Environment> packets;
 
-  GameVisualizer::Key detectionKey;
-  GameVisualizer::Key fieldKey;
+  GameVisualizerBase::Key detectionKey;
+  GameVisualizerBase::Key fieldKey;
   DrawGameContext drawGameContext;
 
   std::optional<Field> field;

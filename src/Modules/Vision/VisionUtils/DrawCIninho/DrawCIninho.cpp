@@ -640,7 +640,7 @@ DrawCIninho::DrawCIninho(const QPointF& origin, qreal scale, qreal angle, const 
     m_color(color) {
 }
 
-void DrawCIninho::run(GameVisualizerPainter2D* f) {
+void DrawCIninho::run(Painter2DBase* f) {
   for (auto polygon : CIninhoBody) {
     std::for_each(polygon.begin(), polygon.end(), [this](QPointF& point) {
       point = Geometry2D::rotateCCW(point, m_angle);

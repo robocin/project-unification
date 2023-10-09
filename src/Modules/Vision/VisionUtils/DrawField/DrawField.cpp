@@ -10,7 +10,7 @@ DrawField::DrawField(const Field& field, bool drawFieldMarkings, bool drawCIninh
     drawFieldMarkings(drawFieldMarkings),
     drawCIninho(drawCIninho) {
 }
-void DrawField::run(GameVisualizerPainter2D* f) {
+void DrawField::run(Painter2DBase* f) {
   QPolygonF fieldLines({QPointF(-field.length() / 2, -field.width() / 2),
                         QPointF(-field.length() / 2, field.width() / 2),
                         QPointF(field.length() / 2, field.width() / 2),

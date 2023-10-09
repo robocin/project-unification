@@ -17,11 +17,11 @@ class SSLCommand {
   PROPERTY(bool, dribbler, false);
   PROPERTY(double, dribblerVelocity, 0);
 
+ public:
   CTOR(SSLCommand, id);
   CTOR(SSLCommand, id, angularVelocity);
   CTOR(SSLCommand, id, velocity, angularVelocity);
 
- public:
   static inline SSLCommand halt(int id) {
     return SSLCommand(id);
   }
@@ -32,10 +32,10 @@ class VSSCommand {
   PROPERTY(double, leftWheel, 0);
   PROPERTY(double, rightWheel, 0);
 
+ public:
   CTOR(VSSCommand, id);
   CTOR(VSSCommand, id, leftWheel, rightWheel);
 
- public:
   static inline VSSCommand halt(int id) {
     return VSSCommand(id);
   }

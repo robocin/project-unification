@@ -39,19 +39,19 @@ void MouseAndKeyboard::connectModules(const Modules* modules) {
           Qt::DirectConnection);
 
   connect(modules->gui()->gameVisualizer(),
-          &GameVisualizer::relativeMousePos,
+          &GameVisualizerBase::relativeMousePos,
           this,
           &MouseAndKeyboard::receiveMousePos,
           Qt::DirectConnection);
 
   connect(modules->gui()->gameVisualizer(),
-          &GameVisualizer::onKeyPress,
+          &GameVisualizerBase::onKeyPress,
           this,
           &MouseAndKeyboard::receiveKeyPressed,
           Qt::DirectConnection);
 
   connect(modules->gui()->gameVisualizer(),
-          &GameVisualizer::onKeyRelease,
+          &GameVisualizerBase::onKeyRelease,
           this,
           &MouseAndKeyboard::receiveKeyReleased,
           Qt::DirectConnection);
@@ -89,7 +89,7 @@ void MouseAndKeyboard::exec() {
 }
 
 void MouseAndKeyboard::ssl() {
-  targetKey.draw([mouse = this->mouse](GameVisualizerPainter2D* f) {
+  targetKey.draw([mouse = this->mouse](Painter2DBase* f) {
     f->drawFilledCircle(mouse.value(), 45, Color::Red);
   });
 
@@ -118,7 +118,7 @@ void MouseAndKeyboard::ssl() {
 }
 
 void MouseAndKeyboard::vss() {
-  targetKey.draw([mouse = this->mouse](GameVisualizerPainter2D* f) {
+  targetKey.draw([mouse = this->mouse](Painter2DBase* f) {
     f->drawFilledCircle(mouse.value(), 4.5, Color::Red);
   });
 

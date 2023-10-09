@@ -32,15 +32,15 @@ void GrSimComm::connectModules(const Modules* modules) {
 
   /* keyboard and mouse replacement (connection type implicit queued). */ {
     connect(modules->gui()->gameVisualizer(),
-            &GameVisualizer::relativeMousePos,
+            &GameVisualizerBase::relativeMousePos,
             this,
             &GrSimComm::receiveRelativeMousePos);
     connect(modules->gui()->gameVisualizer(),
-            &GameVisualizer::onKeyPress,
+            &GameVisualizerBase::onKeyPress,
             this,
             &GrSimComm::receiveKeyPress);
     connect(modules->gui()->gameVisualizer(),
-            &GameVisualizer::onKeyRelease,
+            &GameVisualizerBase::onKeyRelease,
             this,
             &GrSimComm::receiveKeyRelease);
   }

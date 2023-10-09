@@ -7,6 +7,7 @@ namespace VSSMotion {
   class GoToPoint {
     PROPERTY(Point, target);
 
+  public:
     CTOR(GoToPoint, target);
   };
 
@@ -14,11 +15,13 @@ namespace VSSMotion {
     PROPERTY(double, power, 30.0);
     PROPERTY(bool, clockwise, false);
 
+  public:
     CTOR(Spin, power, clockwise);
     CTOR(Spin, clockwise);
   };
 
   class Stop {
+  public:
     CTOR(Stop);
   };
 
@@ -28,6 +31,7 @@ namespace VSSMotion {
 class VSSRobotCommand {
   PROPERTY(VSSMotion::Type, motion);
 
+public:
   CTOR(VSSRobotCommand, motion);
 };
 

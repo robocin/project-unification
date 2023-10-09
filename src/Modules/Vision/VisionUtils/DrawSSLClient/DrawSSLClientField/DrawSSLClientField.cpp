@@ -22,13 +22,13 @@ DrawSSLClientField::DrawSSLClientField(const RoboCupSSL::SSL_GeometryFieldSize& 
   }
 }
 
-void DrawSSLClientField::run(GameVisualizerPainter2D* f) {
+void DrawSSLClientField::run(Painter2DBase* f) {
   for (const auto& line : lines) {
     f->drawLine(line.line.p1(), line.line.p2(), color, line.thickness);
   }
 
   for (const auto& arc : arcs) {
-    f->drawArc(arc.origin, arc.innerRadius, arc.outterRadius, arc.theta1, arc.theta2, color);
+    // f->drawArc(arc.origin, arc.innerRadius, arc.outterRadius, arc.theta1, arc.theta2, color);
     if (arc.origin.isNull() && drawCIninho) {
       qreal scale = 1.2 * arc.outterRadius * std::sin(PI / 4);
       DrawCIninho draw(arc.origin, scale);

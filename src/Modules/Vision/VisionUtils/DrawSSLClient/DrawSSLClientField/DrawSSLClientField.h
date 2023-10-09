@@ -32,7 +32,7 @@ class DrawSSLClientField : public Painting {
                      bool drawCIninho = false,
                      const QColor& color = Color::White);
 
-  void run(GameVisualizerPainter2D* f) override;
+  void run(Painter2DBase* f) override;
   std::unique_ptr<Painting> clone() const override;
 };
 

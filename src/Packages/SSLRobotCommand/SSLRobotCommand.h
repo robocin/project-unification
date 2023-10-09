@@ -13,6 +13,7 @@ namespace SSLMotion {
     PROPERTY(double, propMinDistance);
     PROPERTY(bool, usingPropVelocity, false);
 
+  public:
     CTOR(GoToPoint, target, targetAngle);
     CTOR(GoToPoint, target, targetAngle, usingPropVelocity);
   };
@@ -25,6 +26,7 @@ namespace SSLMotion {
     PROPERTY(double, orbitRadius);
     PROPERTY(double, propVelocityFactor);
 
+  public:
     CTOR(RotateInPoint, target, targetAngle, clockwise, orbitRadius);
     CTOR(RotateInPoint, target, targetAngle, clockwise, orbitRadius, propVelocityFactor);
   };
@@ -33,6 +35,7 @@ namespace SSLMotion {
     PROPERTY(double, targetAngle);
     PROPERTY(double, kp);
 
+  public:
     CTOR(RotateOnSelf, targetAngle);
   };
 
@@ -47,6 +50,7 @@ class SSLRobotCommand {
   PROPERTY(double, dribblerVelocity, 0);
   PROPERTY(SSLMotion::Type, motion);
 
+public:
   CTOR(SSLRobotCommand, motion);
 };
 

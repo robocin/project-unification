@@ -33,7 +33,7 @@ void DrawSSLClientDetection::update(const RoboCupSSL::SSL_DetectionFrame& detect
   }
 }
 
-void DrawSSLClientDetection::run(GameVisualizerPainter2D* f) {
+void DrawSSLClientDetection::run(Painter2DBase* f) {
   for (auto& robots : cameraRobots) {
     for (auto& robot : robots) {
       /* confidence bar border. */ {
@@ -61,7 +61,7 @@ void DrawSSLClientDetection::run(GameVisualizerPainter2D* f) {
         } else {
           qreal theta1 = Geometry::degreesToRadians(40) + *robot.angle;
           qreal theta2 = (2.0 * PI - Geometry::degreesToRadians(40)) + *robot.angle;
-          f->drawCircleSegment(robot.position, 90, theta1, theta2, color);
+          // f->drawCircleSegment(robot.position, 90, theta1, theta2, color);
         }
       }
 
@@ -72,7 +72,7 @@ void DrawSSLClientDetection::run(GameVisualizerPainter2D* f) {
         } else {
           qreal theta1 = Geometry::degreesToRadians(40) + *robot.angle;
           qreal theta2 = (2.0 * PI - Geometry::degreesToRadians(40)) + *robot.angle;
-          f->drawCircleSegment(robot.position, 80, theta1, theta2, color);
+          // f->drawCircleSegment(robot.position, 80, theta1, theta2, color);
         }
       }
 

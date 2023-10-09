@@ -57,7 +57,7 @@ class MouseAndKeyboard : public Processing {
   std::optional<Robot> robot;
   std::optional<Point> mouse;
 
-  GameVisualizer::Key targetKey;
+  GameVisualizerBase::Key targetKey;
 
   SSLNavigation sslNavigation;
   VSSNavigation vssNavigation;

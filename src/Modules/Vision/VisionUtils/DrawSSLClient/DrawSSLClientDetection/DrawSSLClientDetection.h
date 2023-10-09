@@ -34,7 +34,7 @@ class DrawSSLClientDetection : public Painting {
  public:
   void update(const RoboCupSSL::SSL_DetectionFrame& detection);
 
-  void run(GameVisualizerPainter2D* f) override;
+  void run(Painter2DBase* f) override;
   std::unique_ptr<Painting> clone() const override;
 };
 

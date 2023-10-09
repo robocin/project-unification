@@ -23,7 +23,7 @@ class DrawGameContext : public Painting {
   QVector<Robot> blueRobots;
   QVector<Robot> yellowRobots;
 
-  inline static void drawRobot(GameVisualizerPainter2D* f,
+  inline static void drawRobot(Painter2DBase* f,
                                const Robot& robot,
                                const QColor& bodyColor,
                                const QColor& primaryColor) {
@@ -65,7 +65,7 @@ class DrawGameContext : public Painting {
               const QVector<Robot>& t_blueRobots,
               const QVector<Robot>& t_yellowRobots);
 
-  void run(GameVisualizerPainter2D* f) override;
+  void run(Painter2DBase* f) override;
   std::unique_ptr<Painting> clone() const override;
 };
 

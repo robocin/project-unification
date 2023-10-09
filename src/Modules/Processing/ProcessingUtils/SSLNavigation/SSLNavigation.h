@@ -42,6 +42,7 @@ class SSLNavigation {
     PROPERTY(Point, velocity, Point(0, 0));
     PROPERTY(double, angularVelocity, 0);
 
+  public:
     CTOR(RobotMove, velocity, angularVelocity);
     CTOR(RobotMove, angularVelocity);
   };

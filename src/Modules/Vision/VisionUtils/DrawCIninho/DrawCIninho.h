@@ -21,7 +21,7 @@ class DrawCIninho : public Painting {
               qreal angle = 0.0,
               const QColor& color = Color::White);
 
-  void run(GameVisualizerPainter2D* f) override;
+  void run(Painter2DBase* f) override;
   std::unique_ptr<Painting> clone() const override;
 };
 

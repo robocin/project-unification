@@ -12,7 +12,7 @@ void DrawGameContext::update(const Ball& t_ball,
   yellowRobots = t_yellowRobots;
 }
 
-void DrawGameContext::run(GameVisualizerPainter2D* f) {
+void DrawGameContext::run(Painter2DBase* f) {
   for (const auto& robot : blueRobots) {
     drawRobot(f, robot, DarkBlue, Blue);
   }

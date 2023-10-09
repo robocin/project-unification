@@ -15,7 +15,7 @@ class DrawField : public Painting {
 
  public:
   explicit DrawField(const Field& field, bool drawFieldMarkings, bool drawCIninho = false);
-  void run(GameVisualizerPainter2D* f) override;
+  void run(Painter2DBase* f) override;
   std::unique_ptr<Painting> clone() const override;
 };
 

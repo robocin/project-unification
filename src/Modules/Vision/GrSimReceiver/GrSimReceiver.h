@@ -8,6 +8,7 @@
 #include <QUdpSocket>
 #include <QNetworkInterface>
 #include <protobufs/protobufs.h>
+#include <deque>
 
 #include "Modules/Modules.h"
 #include "Modules/Vision/VisionUtils/VisionUtils.h"
@@ -54,8 +55,8 @@ class GrSimReceiver : public Vision {
   std::unique_ptr<QUdpSocket, DeleteLaterDeleter> socket;
   std::deque<RoboCupSSL::SSL_WrapperPacket> packets;
 
-  GameVisualizer::Key fieldKey;
-  GameVisualizer::Key detectionKey;
+  GameVisualizerBase::Key fieldKey;
+  GameVisualizerBase::Key detectionKey;
   DrawSSLClientDetection detectionDraw;
 
   LossDetection loss;

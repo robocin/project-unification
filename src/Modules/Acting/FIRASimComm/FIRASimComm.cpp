@@ -47,15 +47,15 @@ void FIRASimComm::connectModules(const Modules* modules) {
 
   /* keyboard and mouse replacement (connection type implicit queued). */ {
     connect(modules->gui()->gameVisualizer(),
-            &GameVisualizer::relativeMousePos,
+            &GameVisualizerBase::relativeMousePos,
             this,
             &FIRASimComm::receiveRelativeMousePos);
     connect(modules->gui()->gameVisualizer(),
-            &GameVisualizer::onKeyPress,
+            &GameVisualizerBase::onKeyPress,
             this,
             &FIRASimComm::receiveKeyPress);
     connect(modules->gui()->gameVisualizer(),
-            &GameVisualizer::onKeyRelease,
+            &GameVisualizerBase::onKeyRelease,
             this,
             &FIRASimComm::receiveKeyRelease);
   }

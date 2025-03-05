@@ -5,4 +5,3 @@ g++
 open-gl
 protobuf
 qt
-clangd

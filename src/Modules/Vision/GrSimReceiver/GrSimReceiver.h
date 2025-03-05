@@ -7,6 +7,7 @@
 
 #include <QUdpSocket>
 #include <QNetworkInterface>
+#include <deque>
 #include <protobufs/protobufs.h>
 
 #include "Modules/Modules.h"

@@ -8,6 +8,7 @@
 #include <QUdpSocket>
 #include <QNetworkInterface>
 #include <protobufs/protobufs.h>
+#include <deque>
 
 #include "Modules/Modules.h"
 #include "Modules/Vision/VisionUtils/VisionUtils.h"

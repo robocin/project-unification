@@ -5,6 +5,9 @@
 #include "Modules/Processing/ProcessingUtils/ProcessingUtils.h"
 
 class CustomPlayer : public Processing {
+  int maxdis = 9000000;
+  int idrobot = -1;
+  bool ball_placement = true;
  public:
   CustomPlayer(int index, QThreadPool* threadPool);
 
